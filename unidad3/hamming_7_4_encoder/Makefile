@@ -1,0 +1,22 @@
+TOPLEVEL_LANG ?= verilog
+SIM           ?= icarus
+
+VERILOG_SOURCES := $(PWD)/hamming_encoder.sv $(PWD)/dump.sv
+TOPLEVEL        := hamming_encoder
+MODULE          := hamming_encoder_tb
+
+# para que el testbench encuentre galois.py
+export PYTHONPATH := $(PWD):$(PWD)/../../algebra:$(PYTHONPATH)
+
+COCOTB_HDL_TIMEUNIT      = 1ns
+COCOTB_HDL_TIMEPRECISION = 1ps
+
+ifeq ($(SIM),icarus)
+    COMPILE_ARGS += -g2012 -s dump
+endif
+
+include $(shell cocotb-config --makefiles)/Makefile.sim
+
+.PHONY: ondas
+ondas: sim
+	gtkwave hamming_encoder.vcd &
