@@ -10,6 +10,13 @@ G = | 0 1 0 0 0 1 1 |
     | 0 0 0 1 1 0 1 |
 
 v (message) = u (info) * G (generator matrix)
+p = [p0 p1 p2]
+    LSB       MSB
+u = [u0 u1 u2 u3]
+v = [u0 u1 u2 u3 - p0 p1 p2]
+p0 = u0 + u2 + u3
+p1 = u0 + u1 + u2
+p2 = u1 + u2 + u3
 */
 
 logic [3-1:0] parity;

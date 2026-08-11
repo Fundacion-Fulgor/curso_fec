@@ -8,8 +8,9 @@ module hamming_7_4 (
 );
 
 /*
-    i_info ---------> [reg] ---> encoder ---> (+) ---> decoder ---> o_info
+i_info ---------> [reg] ---> encoder ---> (+) ---> decoder ---> o_info
                                                ^
+                                               |
     i_error_vector -> [reg] --------------------
 
     el vector de error se registra junto con la informacion, asi la suma

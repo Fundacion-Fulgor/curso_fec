@@ -20,10 +20,14 @@ h3 = 101 -> 3'b101
 h4 = 100 -> 3'b001
 h5 = 010 -> 3'b010
 h6 = 001 -> 3'b100
+
+r = v + e
+v + e + e = v
+r + e = v
 */
 
 logic [3-1:0] error_position;
-logic [7-1:0] estimated_error;
+logic [7-1:0] estimated_error; // e
 logic [7-1:0] corrected_message;
 logic [4-1:0] info_d;
 logic         is_corrected_d;
@@ -55,7 +59,7 @@ always_ff @(posedge i_clk) begin
     end
     else begin
         info_d         <= corrected_message[3:0];
-        is_corrected_d <= (i_zero_syndrome == 0);
+        is_corrected_d <= !i_zero_syndrome;
     end
 end
 

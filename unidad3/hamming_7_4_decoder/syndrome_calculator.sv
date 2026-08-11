@@ -20,6 +20,11 @@ H^T = | 1 0 1 |
       | 0 0 1 |
 
 s (syndrome) = r (received message) * H^T (transposed H)
+r = v + e
+
+s0 = r0 + r2 + r3 + r4
+s1 = r0 + r1 + r2 + r5
+s2 = r1 + r2 + r3 + r6
 */
 
 logic [7-1:0] message_d;
@@ -41,6 +46,8 @@ always_comb begin
 end
 
 assign o_syndrome      = syndrome;
-assign o_zero_syndrome = ~(|syndrome);
+assign o_zero_syndrome = (|syndrome == 1'b0);
+
+// |syndrome = syndrome[0] | syndrome[1] | syndrome[2]
 
 endmodule

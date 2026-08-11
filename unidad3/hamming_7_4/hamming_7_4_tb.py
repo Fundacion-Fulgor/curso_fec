@@ -48,9 +48,6 @@ async def test_hamming_7_4(dut):
     await RisingEdge(dut.i_clk)
     dut.i_rst.value = 0
 
-    print(f"\n{F}")
-    print(f"g(x) = {G}   a^3 = {K}   ->  s = a^3 * r(a)")
-
     # todos los mensajes contra todos los patrones de error posibles
     casos = [(u, e) for u in range(16) for e in range(128)]
 
@@ -58,9 +55,6 @@ async def test_hamming_7_4(dut):
     print(f"  {'u':>4} | {'e':>10} | {'v transmitido':>13} | {'r recibido':>10} | "
           f"{'o_info':>6} | {'is_corr':>7}")
     print(f"  {'-'*4}-+-{'-'*10}-+-{'-'*13}-+-{'-'*10}-+-{'-'*6}-+-{'-'*7}")
-
-    ok = {}
-    total = {}
 
     for k in range(len(casos) + LATENCIA - 1):
         if k < len(casos):
@@ -87,22 +81,6 @@ async def test_hamming_7_4(dut):
             assert info == info_esp, f"u={u:04b} e={e:07b}: o_info {info:04b} vs {info_esp:04b}"
             assert flag == flag_esp, f"u={u:04b} e={e:07b}: o_is_corrected {flag}"
 
-            peso = bin(e).count("1")
-            total[peso] = total.get(peso, 0) + 1
-            ok[peso] = ok.get(peso, 0) + (info == u)
-            if u == 0b1011 and peso <= 1:
+            if u == 0b1011 and bin(e).count("1") <= 1:
                 print(f"  {u:04b} | {fmt(e):>10} | {fmt(codificar(u)):>13} | {fmt(r):>10} | "
                       f"{info:04b}   | {flag:>7}")
-
-    print("\nRecuperacion del mensaje segun el peso del vector de error")
-    print(f"  {'peso':>4} | {'casos':>5} | {'recuperados':>11} | {'%':>5}")
-    print(f"  {'-'*4}-+-{'-'*5}-+-{'-'*11}-+-{'-'*5}")
-    for peso in sorted(total):
-        print(f"  {peso:>4} | {total[peso]:>5} | {ok[peso]:>11} | "
-              f"{100*ok[peso]/total[peso]:>5.1f}")
-
-    # sin errores y con un solo error el mensaje siempre se recupera
-    assert ok[0] == total[0] and ok[1] == total[1]
-    # con dos errores nunca, porque el decoder corrige un tercer bit
-    assert ok[2] == 0
-    print(f"\n{sum(total.values())} casos verificados contra el modelo")

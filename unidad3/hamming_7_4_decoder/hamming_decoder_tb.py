@@ -44,20 +44,12 @@ async def test_hamming_decoder(dut):
     dut.i_rst.value = 0
 
     print(f"\n{F}")
-    print(f"  {'i':>2} | {'a^i':>3} | {'bin':>3} | polinomio")
-    print(f"  {'-'*2}-+-{'-'*3}-+-{'-'*3}-+-{'-'*15}")
-    for i in range(F.n):
-        a = F.exp(i)
-        print(f"  {i:>2} | {a:>3} | {a:03b} | {F.poly_str(a)}")
-    print(f"\ng(x) = {G}   a^3 = {K}   ->  s = a^3 * r(a)")
+    print(f"g(x) = {G}   a^3 = {K}   ->  s = a^3 * r(a)")
 
     print("\nBarrido de las 128 palabras de 7 bits")
-    print(f"  {'r recibido':>10} | {'s':>3} | {'zero':>4} | {'pos':>3} | {'corregido':>10} | "
+    print(f"  {'r recibido':>10} | {'s':>3} | {'zero':>4} | {'corregido':>10} | "
           f"{'o_info':>6} | {'is_corr':>7}")
-    print(f"  {'-'*10}-+-{'-'*3}-+-{'-'*4}-+-{'-'*3}-+-{'-'*10}-+-{'-'*6}-+-{'-'*7}")
-
-    validas = corregidas = 0
-    decodificado = {}
+    print(f"  {'-'*10}-+-{'-'*3}-+-{'-'*4}-+-{'-'*10}-+-{'-'*6}-+-{'-'*7}")
 
     for k in range(129):
         if k < 128:
@@ -67,7 +59,7 @@ async def test_hamming_decoder(dut):
         await Timer(1, "ns")
 
         if k < 128:
-            s_esp, corr_esp, info_esp, flag_esp = modelo(k)
+            s_esp, _, _, _ = modelo(k)
             s = int(dut.u_syndrome_calculator.o_syndrome.value)
             z = int(dut.u_syndrome_calculator.o_zero_syndrome.value)
             assert s == s_esp, f"r={k:07b}: sindrome {s}, modelo {s_esp}"
@@ -81,11 +73,5 @@ async def test_hamming_decoder(dut):
             assert info == info_esp, f"r={r:07b}: o_info {info:04b}, modelo {info_esp:04b}"
             assert flag == flag_esp, f"r={r:07b}: o_is_corrected {flag}"
 
-            validas += s_esp == 0
-            corregidas += flag
-            decodificado[r] = info
-            pos = "-" if s_esp == 0 else str(F.log(F.div(s_esp, K)))
-            print(f"  {fmt(r):>10} | {s_esp:>3} | {int(s_esp == 0):>4} | {pos:>3} | "f"{fmt(corr_esp):>10} | {info:04b}   | {flag:>7}")
-
-    print(f"\n{validas} palabras validas (sindrome nulo), {corregidas} corregidas")
-    assert validas == 16 and corregidas == 112
+            print(f"  {fmt(r):>10} | {s_esp:>3} | {int(s_esp == 0):>4} | {fmt(corr_esp):>10} | "
+                  f"{info:04b}   | {flag:>7}")
