@@ -1,0 +1,66 @@
+[*] Example 31 of Zhang on key_equation_solver (riBM): open from the demo directory
+[*]   gtkwave sim_build/dump.vcd zhang_demo.gtkw
+[dumpfile] "sim_build/dump.vcd"
+[timestart] 0
+[size] 1400 860
+[pos] -1 -1
+*-14.000000 20000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 1
+[signals_width] 270
+[sst_expanded] 0
+@28
+zhang_demo.i_clk
+zhang_demo.i_valid
+zhang_demo.busy
+@200
+-Control (Fig. 2)
+@24
+zhang_demo.r[1:0]
+@424
+zhang_demo.k[3:0]
+@2022
+^1 alpha_gf8.txt
+zhang_demo.gamma[2:0]
+@28
+zhang_demo.mc
+@200
+-rDC: delta-hat_0..3 (Fig. 4)
+@2022
+^1 alpha_gf8.txt
+zhang_demo.delta_0[2:0]
+zhang_demo.delta_1[2:0]
+zhang_demo.delta_2[2:0]
+zhang_demo.delta_3[2:0]
+@200
+-rDC: theta-hat_0..3
+@2022
+^1 alpha_gf8.txt
+zhang_demo.theta_0[2:0]
+zhang_demo.theta_1[2:0]
+zhang_demo.theta_2[2:0]
+zhang_demo.theta_3[2:0]
+@200
+-ELU: lambda_0..2 (Fig. 3)
+@2022
+^1 alpha_gf8.txt
+zhang_demo.lambda_0[2:0]
+zhang_demo.lambda_1[2:0]
+zhang_demo.lambda_2[2:0]
+@200
+-ELU: b_0..2
+@2022
+^1 alpha_gf8.txt
+zhang_demo.b_0[2:0]
+zhang_demo.b_1[2:0]
+zhang_demo.b_2[2:0]
+@200
+-Outputs
+@28
+zhang_demo.o_valid
+@2022
+^1 alpha_gf8.txt
+zhang_demo.out_lambda_0[2:0]
+zhang_demo.out_lambda_1[2:0]
+zhang_demo.out_lambda_2[2:0]
+zhang_demo.out_omega_0[2:0]
+zhang_demo.out_omega_1[2:0]
